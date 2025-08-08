@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports App - Aplicación Deportes Accesible</title>
+    <meta name="description" content="Aplicación deportiva accesible con información sobre diversos deportes y atletas paralímpicos">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-color: #1f2937;
+            --bg-color: #f9fafb;
+            --dark-text: #e5e7eb;
+            --dark-bg: #111827;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        
+        .dark-mode .bg-white {
+            background-color: #1f2937;
+        }
+        
+        .dark-mode .text-gray-900 {
+            color: var(--dark-text);
+        }
+        
+        .dark-mode .bg-gray-100 {
+            background-color: #374151;
+        }
+        
+        .dark-mode .border-gray-200 {
+            border-color: #4b5563;
+        }
+        
+        .dark-mode .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+        }
+        
+        .dark-mode .hover\\:bg-gray-200:hover {
+            background-color: #4b5563;
+        }
+        
+        /* Estilos para accesibilidad */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        *:focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        /* Mejoras para deportes adaptados */
+        .adaptive-sport {
+            position: relative;
+        }
+        
+        .adaptive-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc2626;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+
+    <!-- Skip link para navegación por teclado -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Botón de Modo Oscuro/Claro -->
+    <button id="theme-toggle" aria-label="Alternar entre modo claro y oscuro" class="fixed bottom-4 right-4 z-50 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-transform transform hover:scale-110">
+        <svg id="moon-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg id="sun-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+
+    <!-- Navegación Principal -->
+    <header class="bg-white shadow-md rounded-b-xl sticky top-0 z-40 transition-colors duration-300 dark:bg-gray-800">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center" aria-label="Navegación principal">
+            <a href="#inicio" class="text-2xl font-bold text-blue-600 dark:text-blue-400 flex items-center" aria-label="Ir a la página de inicio">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v9m-8-9H4m0 0a2 2 0 100-4 2 2 0 000 4zm8 0a2 2 0 100-4 2 2 0 000 4z" />
+                </svg>
+                Sports App
+            </a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#inicio" class="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200 px-3 py-2 rounded-md font-medium" aria-current="page">Inicio</a>
+                <a href="#deportes" class="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200 px-3 py-2 rounded-md font-medium">Deportes</a>
+                <a href="#paralimpicos" class="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200 px-3 py-2 rounded-md font-medium">Paralímpicos</a>
+                <a href="#login" class="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200 px-3 py-2 rounded-md font-medium">Login</a>
+            </div>
+            <!-- Menú hamburguesa para móviles -->
+            <button id="menu-toggle" class="md:hidden text-gray-700 dark:text-gray-300 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menú de navegación">
+                <svg id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                <svg id="close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Menú móvil desplegable -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 shadow-lg py-2 transition-colors duration-300">
+            <a href="#inicio" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 font-medium" aria-current="page">Inicio</a>
+            <a href="#deportes" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 font-medium">Deportes</a>
+            <a href="#paralimpicos" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 font-medium">Paralímpicos</a>
+            <a href="#login" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 font-medium">Login</a>
+        </div>
+    </header>
+
+    <main id="main-content" class="container mx-auto p-4 space-y-12">
+        <!-- Sección de Inicio -->
+        <section id="inicio" class="py-12 md:py-20 animate-fade-in" aria-labelledby="inicio-heading">
+            <h1 id="inicio-heading" class="text-4xl md:text-6xl font-extrabold text-center text-blue-600 dark:text-blue-400 mb-6">Tu Mundo Deportivo en un Solo Lugar</h1>
+            <p class="text-lg text-center text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">Explora, descubre y comparte noticias, eventos y perfiles de atletas de tus deportes favoritos. Mantente al día con lo último en el mundo del deporte, con un diseño accesible para todos.</p>
+            <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#deportes" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center">Explorar Deportes</a>
+                <a href="#paralimpicos" class="inline-block bg-purple-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-center">Deportes Paralímpicos</a>
+            </div>
+            <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2">
+                    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Jugador de fútbol en silla de ruedas compitiendo en un partido" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
+                    <h2 class="text-2xl font-bold mb-2 dark:text-white">Fútbol en Silla de Ruedas</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Descubre los torneos más importantes y los equipos líderes en este deporte adaptado.</p>
+                    <a href="#deporte-detalle-1" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Leer más sobre fútbol en silla de ruedas">
+                        Leer más 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                </article>
+                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2">
+                    <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Atleta paralímpico corriendo con prótesis en una pista" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
+                    <h2 class="text-2xl font-bold mb-2 dark:text-white">Atletismo Paralímpico</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Conoce las historias inspiradoras de los atletas y los récords más impresionantes.</p>
+                    <a href="#deporte-detalle-2" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Leer más sobre atletismo paralímpico">
+                        Leer más 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                </article>
+                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2">
+                    <img src="https://images.unsplash.com/photo-1600181980239-82d19b5d1f3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Partido de baloncesto en silla de ruedas con jugadores compitiendo" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
+                    <h2 class="text-2xl font-bold mb-2 dark:text-white">Baloncesto en Silla</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Todo sobre el emocionante mundo del baloncesto adaptado y sus estrellas.</p>
+                    <a href="#deporte-detalle-3" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Leer más sobre baloncesto en silla de ruedas">
+                        Leer más 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Sección de Listado de Deportes -->
+        <section id="deportes" class="py-12 md:py-20 hidden animate-fade-in" aria-labelledby="deportes-heading">
+            <h1 id="deportes-heading" class="text-4xl md:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-10">Explora Todos los Deportes</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Tarjetas de deportes -->
+                <a href="#deporte-detalle-1" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Fútbol">
+                    <span class="text-6xl mb-4" role="img" aria-label="Emoji de balón de fútbol">⚽</span>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Fútbol</h2>
+                </a>
+                <a href="#deporte-detalle-2" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Baloncesto">
+                    <span class="text-6xl mb-4" role="img" aria-label="Emoji de balón de baloncesto">🏀</span>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Baloncesto</h2>
+                </a>
+                <a href="#deporte-detalle-3" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Tenis">
+                    <span class="text-6xl mb-4" role="img" aria-label="Emoji de pelota de tenis">🎾</span>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Tenis</h2>
+                </a>
+                <a href="#deporte-detalle-4" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Voleibol">
+                    <span class="text-6xl mb-4" role="img" aria-label="Emoji de balón de voleibol">🏐</span>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Voleibol</h2>
+                </a>
+                <a href="#deporte-detalle-5" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Natación">
+                    <span class="text-6xl mb-4" role="img" aria-label="Emoji de persona nadando">🏊‍♂️</span>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Natación</h2>
+                </a>
+                <a href="#deporte-detalle-6" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Atletismo">
+                    <span class="text-6xl mb-4" role="img" aria-label="Emoji de persona corriendo">🏃‍♀️</span>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Atletismo</h2>
+                </a>
+                <a href="#deporte-detalle-7" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Ciclismo">
+                    <span class="text-6xl mb-4" role="img" aria-label="Emoji de persona en bicicleta">🚴‍♂️</span>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Ciclismo</h2>
+                </a>
+                <a href="#deporte-detalle-8" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Béisbol">
+                    <span class="text-6xl mb-4" role="img" aria-label="Emoji de bate y pelota de béisbol">⚾</span>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Béisbol</h2>
+                </a>
+            </div>
+        </section>
+
+        <!-- Sección de Deportes Paralímpicos -->
+        <section id="paralimpicos" class="py-12 md:py-20 hidden animate-fade-in" aria-labelledby="paralimpicos-heading">
+            <h1 id="paralimpicos-heading" class="text-4xl md:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-10">Deportes Paralímpicos</h1>
+            <p class="text-lg text-center text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-12">Los deportes paralímpicos son una demostración de capacidad, superación y espíritu deportivo. Conoce más sobre estas disciplinas adaptadas y sus atletas.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Fútbol 5 para ciegos -->
+                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
+                    <div class="adaptive-badge">Adaptado</div>
+                    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Jugador de fútbol 5 para ciegos con antifaz y balón con cascabeles" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
+                    <h2 class="text-2xl font-bold mb-2 dark:text-white">Fútbol 5 para ciegos</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Variante del fútbol para deportistas con discapacidad visual. El balón contiene cascabeles para ser localizado por sonido.</p>
+                    <div class="flex justify-between items-center">
+                        <a href="#paralimpico-detalle-1" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Más información sobre fútbol 5 para ciegos">
+                            Más info
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Paralímpico desde 2004</span>
+                    </div>
+                </article>
+                
+                <!-- Boccia -->
+                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
+                    <div class="adaptive-badge">Adaptado</div>
+                    <img src="https://images.unsplash.com/photo-1593113598332-cd59a93c6138?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Jugador de boccia en silla de ruedas lanzando una bola" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
+                    <h2 class="text-2xl font-bold mb-2 dark:text-white">Boccia</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Deporte similar a la petanca diseñado específicamente para atletas con discapacidades severas.</p>
+                    <div class="flex justify-between items-center">
+                        <a href="#paralimpico-detalle-2" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Más información sobre boccia">
+                            Más info
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Paralímpico desde 1984</span>
+                    </div>
+                </article>
+                
+                <!-- Goalball -->
+                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
+                    <div class="adaptive-badge">Adaptado</div>
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Jugadores de goalball defendiendo su portería con el cuerpo" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
+                    <h2 class="text-2xl font-bold mb-2 dark:text-white">Goalball</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Deporte creado específicamente para personas con discapacidad visual, donde se usa un balón con cascabeles.</p>
+                    <div class="flex justify-between items-center">
+                        <a href="#paralimpico-detalle-3" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Más información sobre goalball">
+                            Más info
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Paralímpico desde 1976</span>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="mt-12 bg-blue-50 dark:bg-gray-700 rounded-xl p-8">
+                <h2 class="text-2xl font-bold text-blue-800 dark:text-blue-300 mb-4">¿Qué son los deportes paralímpicos?</h2>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">Los deportes paralímpicos son deportes adaptados para personas con diferentes tipos de discapacidad física, intelectual o sensorial. Estos deportes siguen reglas específicas adaptadas a las capacidades de los atletas.</p>
+                <p class="text-gray-700 dark:text-gray-300">Los Juegos Paralímpicos son el evento deportivo más importante a nivel mundial para atletas con discapacidad, y se celebran justo después de los Juegos Olímpicos, en las mismas sedes e instalaciones.</p>
+            </div>
+        </section>
+
+        <!-- Sección de Detalle del Deporte (Ejemplo) -->
+        <section id="deporte-detalle-1" class="py-12 md:py-20 hidden animate-fade-in" aria-labelledby="detalle-heading">
+            <a href="#deportes" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Volver a la lista de deportes">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Volver a Deportes
+            </a>
+            <h1 id="detalle-heading" class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-6">Fútbol</h1>
+            <img src="https://images.unsplash.com/photo-1543357480-c60d400e2ef9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80" alt="Primer plano de un jugador de fútbol driblando un balón." class="w-full h-80 object-cover rounded-xl shadow-lg mb-8" loading="lazy">
+
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Información y Reglas</h2>
+                <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">El fútbol, también conocido como balompié, es un deporte de equipo jugado entre dos conjuntos de once jugadores cada uno y algunos árbitros que se ocupan de que las normas se cumplan correctamente. Es ampliamente considerado el deporte más popular del mundo, pues participan en él unos 270 millones de personas.</p>
+                
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Principales ligas</h3>
+                <ul class="list-disc list-inside space-y-2 text-lg text-gray-700 dark:text-gray-300">
+                    <li>La Liga (España)</li>
+                    <li>Premier League (Inglaterra)</li>
+                    <li>Serie A (Italia)</li>
+                    <li>Bundesliga (Alemania)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Sección de Detalle de Deporte Paralímpico (Ejemplo) -->
+        <section id="paralimpico-detalle-1" class="py-12 md:py-20 hidden animate-fade-in" aria-labelledby="paralimpico-heading">
+            <a href="#paralimpicos" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Volver a la lista de deportes paralímpicos">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Volver a Deportes Paralímpicos
+            </a>
+            <h1 id="paralimpico-heading" class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-6">Fútbol 5 para ciegos</h1>
+            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80" alt="Jugadores de fútbol 5 para ciegos en acción durante un partido" class="w-full h-80 object-cover rounded-xl shadow-lg mb-8" loading="lazy">
+
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Información y Reglas</h2>
+                <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">El fútbol 5 para ciegos es una adaptación del fútbol para atletas con discapacidad visual. Cada equipo consta de cuatro jugadores de campo (clasificados como B1, completamente ciegos) y un portero vidente o con visión parcial (clasificado como B2 o B3). Todos los jugadores de campo usan antifaces para garantizar la igualdad de condiciones.</p>
+                
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Características principales</h3>
+                <ul class="list-disc list-inside space-y-2 text-lg text-gray-700 dark:text-gray-300">
+                    <li>El balón contiene cascabeles internos para que los jugadores puedan localizarlo por el sonido</li>
+                    <li>El campo es más pequeño que en fútbol convencional (40m x 20m) y está rodeado por vallas</li>
+                    <li>Los jugadores se comunican constantemente y los entrenadores dan instrucciones desde detrás de la portería</li>
+                    <li>El partido consta de dos tiempos de 25 minutos cada uno</li>
+                </ul>
+                
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 mb-3">Atletas destacados</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex items-start">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80" alt="Retrato de Ricardo Alves, destacado jugador de fútbol 5 para ciegos" class="w-16 h-16 rounded-full object-cover mr-4" loading="lazy">
+                        <div>
+                            <h4 class="font-bold text-lg dark:text-white">Ricardo Alves</h4>
+                            <p class="text-gray-600 dark:text-gray-300">Medallista paralímpico con la selección brasileña, considerado uno de los mejores jugadores del mundo.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80" alt="Retrato de Liu Fan, destacada jugadora china de fútbol 5 para ciegos" class="w-16 h-16 rounded-full object-cover mr-4" loading="lazy">
+                        <div>
+                            <h4 class="font-bold text-lg dark:text-white">Liu Fan</h4>
+                            <p class="text-gray-600 dark:text-gray-300">Capitana del equipo chino femenino, pionera en el desarrollo de este deporte en Asia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Login (Formulario) -->
+        <section id="login" class="py-12 md:py-20 hidden animate-fade-in" aria-labelledby="login-heading">
+            <h1 id="login-heading" class="text-4xl md:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-10">Iniciar Sesión</h1>
+            <div class="max-w-md mx-auto bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+                <form id="login-form" novalidate>
+                    <div class="mb-6">
+                        <label for="email" class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Correo Electrónico <span class="text-red-500">*</span></label>
+                        <input type="email" id="email" name="email" required aria-describedby="email-help email-error" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors dark:bg-gray-700 dark:text-white" placeholder="tucorreo@ejemplo.com">
+                        <p id="email-help" class="text-sm text-gray-500 dark:text-gray-400 mt-1">Introduce tu dirección de correo electrónico registrada</p>
+                        <p id="email-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Por favor, introduce un correo electrónico válido.</p>
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Contraseña <span class="text-red-500">*</span></label>
+                        <input type="password" id="password" name="password" required minlength="6" aria-describedby="password-error" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors dark:bg-gray-700 dark:text-white" placeholder="Mínimo 6 caracteres">
+                        <p id="password-error" class="text-red-500 text-sm mt-1 hidden" role="alert">La contraseña debe tener al menos 6 caracteres.</p>
+                    </div>
+                    <div class="mb-6 flex items-center">
+                        <input type="checkbox" id="remember" name="remember" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+                        <label for="remember" class="ml-2 block text-gray-700 dark:text-gray-300">Recordar mi sesión</label>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Iniciar Sesión</button>
+                </form>
+                <div class="mt-6 text-center">
+                    <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">¿Olvidaste tu contraseña?</a>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-gray-600 dark:text-gray-300">¿No tienes una cuenta? <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">Regístrate</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12 mt-12 rounded-t-xl transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Sports App</h3>
+                    <p class="text-gray-400">La aplicación deportiva más accesible, con información sobre deportes convencionales y adaptados.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Enlaces rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#inicio" class="text-gray-400 hover:text-white transition-colors">Inicio</a></li>
+                        <li><a href="#deportes" class="text-gray-400 hover:text-white transition-colors">Deportes</a></li>
+                        <li><a href="#paralimpicos" class="text-gray-400 hover:text-white transition-colors">Paralímpicos</a></li>
+                        <li><a href="#login" class="text-gray-400 hover:text-white transition-colors">Login</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contacto</h4>
+                    <address class="not-italic text-gray-400">
+                        <p class="mb-2">Calle Deportiva 123</p>
+                        <p class="mb-2">Madrid, España</p>
+                        <p class="mb-2">info@sportsapp.com</p>
+                        <p>+34 123 456 789</p>
+                    </address>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Accesibilidad</h4>
+                    <p class="text-gray-400 mb-4">Nuestro compromiso es ofrecer una experiencia accesible para todos los usuarios.</p>
+                    <button id="accessibility-btn" class="text-blue-400 hover:text-blue-300 font-medium">Opciones de accesibilidad</button>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Sports App. Todos los derechos reservados.</p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-white">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-white">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-white">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de accesibilidad -->
+    <div id="accessibility-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold dark:text-white">Opciones de accesibilidad</h3>
+                <button id="close-modal" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="high-contrast" class="rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-700">
+                        <span class="ml-2 dark:text-gray-300">Alto contraste</span>
+                    </label>
+                </div>
+                <div>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="bigger-text" class="rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-700">
+                        <span class="ml-2 dark:text-gray-300">Texto más grande</span>
+                    </label>
+                </div>
+                <div>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="dyslexia-font" class="rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-700">
+                        <span class="ml-2 dark:text-gray-300">Fuente para dislexia</span>
+                    </label>
+                </div>
+                <div>
+                    <label for="animation-control" class="block mb-2 dark:text-gray-300">Reducir animaciones</label>
+                    <select id="animation-control" class="w-full rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                        <option value="reduce">Reducir</option>
+                        <option value="normal" selected>Normal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end">
+                <button id="apply-accessibility" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Aplicar cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elementos del DOM
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('header nav a');
+            const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const moonIcon = document.getElementById('moon-icon');
+            const sunIcon = document.getElementById('sun-icon');
+            const menuToggleBtn = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            const loginForm = document.getElementById('login-form');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+            const accessibilityBtn = document.getElementById('accessibility-btn');
+            const accessibilityModal = document.getElementById('accessibility-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const applyAccessibilityBtn = document.getElementById('apply-accessibility');
+            const highContrastCheckbox = document.getElementById('high-contrast');
+            const biggerTextCheckbox = document.getElementById('bigger-text');
+            const dyslexiaFontCheckbox = document.getElementById('dyslexia-font');
+            const animationControlSelect = document.getElementById('animation-control');
+
+            // Mostrar sección basada en el hash de la URL
+            const showSection = (hash) => {
+                const targetId = hash.substring(1) || 'inicio';
+                
+                sections.forEach(section => {
+                    const shouldShow = section.id === targetId || 
+                                     (targetId.startsWith('deporte-detalle') && section.id.startsWith('deporte-detalle')) ||
+                                     (targetId.startsWith('paralimpico-detalle') && section.id.startsWith('paralimpico-detalle'));
+                    
+                    if (shouldShow) {
+                        section.classList.remove('hidden');
+                        section.classList.add('animate-fade-in');
+                        section.setAttribute('tabindex', '-1');
+                        section.focus();
+                    } else {
+                        section.classList.add('hidden');
+                        section.classList.remove('animate-fade-in');
+                    }
+                });
+
+                // Actualizar aria-current para accesibilidad
+                const updateAriaCurrent = (links) => {
+                    links.forEach(link => {
+                        if (link.getAttribute('href') === hash) {
+                            link.setAttribute('aria-current', 'page');
+                        } else {
+                            link.removeAttribute('aria-current');
+                        }
+                    });
+                };
+                
+                updateAriaCurrent(navLinks);
+                updateAriaCurrent(mobileMenuLinks);
+
+                // Cerrar menú móvil si está abierto
+                mobileMenu.classList.add('hidden');
+                menuToggleBtn.setAttribute('aria-expanded', 'false');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            };
+
+            // Manejar la navegación por hash
+            window.addEventListener('hashchange', () => showSection(window.location.hash));
+            
+            // Mostrar sección inicial
+            showSection(window.location.hash);
+
+            // Manejar la navegación por enlaces
+            const handleLinkClick = (e) => {
+                const link = e.currentTarget;
+                const hash = link.getAttribute('href');
+                
+                if (hash.startsWith('#')) {
+                    e.preventDefault();
+                    window.location.hash = hash;
+                }
+            };
+            
+            navLinks.forEach(link => link.addEventListener('click', handleLinkClick));
+            mobileMenuLinks.forEach(link => link.addEventListener('click', handleLinkClick));
+
+            // Modo oscuro/claro
+            themeToggleBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                themeToggleBtn.setAttribute('aria-label', `Alternar a modo ${isDarkMode ? 'claro' : 'oscuro'}`);
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                moonIcon.classList.toggle('hidden', isDarkMode);
+                sunIcon.classList.toggle('hidden', !isDarkMode);
+            });
+
+            // Aplicar tema guardado
+            if (localStorage.getItem('theme') === 'dark' || 
+                (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+            }
+
+            // Menú móvil
+            menuToggleBtn.addEventListener('click', () => {
+                const isExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
+                menuToggleBtn.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+
+            // Validación de formulario
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let isValid = true;
+
+                // Validar email
+                if (!emailInput.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+                    emailError.classList.remove('hidden');
+                    emailInput.setAttribute('aria-invalid', 'true');
+                    isValid = false;
+                } else {
+                    emailError.classList.add('hidden');
+                    emailInput.setAttribute('aria-invalid', 'false');
+                }
+
+                // Validar contraseña
+                if (passwordInput.value.length < 6) {
+                    passwordError.classList.remove('hidden');
+                    passwordInput.setAttribute('aria-invalid', 'true');
+                    isValid = false;
+                } else {
+                    passwordError.classList.add('hidden');
+                    passwordInput.setAttribute('aria-invalid', 'false');
+                }
+
+                if (isValid) {
+                    // Simular envío exitoso
+                    const liveRegion = document.createElement('div');
+                    liveRegion.setAttribute('role', 'status');
+                    liveRegion.setAttribute('aria-live', 'polite');
+                    liveRegion.className = 'sr-only';
+                    liveRegion.textContent = 'Formulario enviado con éxito';
+                    document.body.appendChild(liveRegion);
+                    
+                    setTimeout(() => {
+                        liveRegion.remove();
+                        loginForm.reset();
+                        alert("Formulario enviado con éxito!");
+                    }, 100);
+                } else {
+                    // Mover foco al primer error
+                    const firstError = emailError.classList.contains('hidden') ? passwordInput : emailInput;
+                    firstError.focus();
+                }
+            });
+
+            // Modal de accesibilidad
+            accessibilityBtn.addEventListener('click', () => {
+                accessibilityModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                closeModalBtn.focus();
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                accessibilityModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+
+            applyAccessibilityBtn.addEventListener('click', () => {
+                // Aplicar alto contraste
+                if (highContrastCheckbox.checked) {
+                    document.body.classList.add('high-contrast');
+                } else {
+                    document.body.classList.remove('high-contrast');
+                }
+
+                // Aplicar texto más grande
+                if (biggerTextCheckbox.checked) {
+                    document.body.classList.add('bigger-text');
+                } else {
+                    document.body.classList.remove('bigger-text');
+                }
+
+                // Aplicar fuente para dislexia
+                if (dyslexiaFontCheckbox.checked) {
+                    document.body.classList.add('dyslexia-font');
+                } else {
+                    document.body.classList.remove('dyslexia-font');
+                }
+
+                // Reducir animaciones
+                if (animationControlSelect.value === 'reduce') {
+                    document.body.classList.add('reduce-motion');
+                } else {
+                    document.body.classList.remove('reduce-motion');
+                }
+
+                // Guardar preferencias
+                const accessibilityPrefs = {
+                    highContrast: highContrastCheckbox.checked,
+                    biggerText: biggerTextCheckbox.checked,
+                    dyslexiaFont: dyslexiaFontCheckbox.checked,
+                    reduceMotion: animationControlSelect.value === 'reduce'
+                };
+                
+                localStorage.setItem('accessibilityPrefs', JSON.stringify(accessibilityPrefs));
+
+                // Cerrar modal
+                accessibilityModal.classList.add('hidden');
+                document.body.style.overflow = '';
+                
+                // Notificar cambio
+                const liveRegion = document.createElement('div');
+                liveRegion.setAttribute('role', 'status');
+                liveRegion.setAttribute('aria-live', 'polite');
+                liveRegion.className = 'sr-only';
+                liveRegion.textContent = 'Preferencias de accesibilidad aplicadas';
+                document.body.appendChild(liveRegion);
+                setTimeout(() => liveRegion.remove(), 1000);
+            });
+
+            // Cargar preferencias guardadas
+            const savedPrefs = localStorage.getItem('accessibilityPrefs');
+            if (savedPrefs) {
+                const prefs = JSON.parse(savedPrefs);
+                
+                highContrastCheckbox.checked = prefs.highContrast;
+                biggerTextCheckbox.checked = prefs.biggerText;
+                dyslexiaFontCheckbox.checked = prefs.dyslexiaFont;
+                animationControlSelect.value = prefs.reduceMotion ? 'reduce' : 'normal';
+                
+                // Aplicar estilos
+                if (prefs.highContrast) document.body.classList.add('high-contrast');
+                if (prefs.biggerText) document.body.classList.add('bigger-text');
+                if (prefs.dyslexiaFont) document.body.classList.add('dyslexia-font');
+                if (prefs.reduceMotion) document.body.classList.add('reduce-motion');
+            }
+
+            // Manejar teclado para tarjetas
+            document.querySelectorAll('[role="button"], a[href^="#"]').forEach(element => {
+                element.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (element.getAttribute('href')) {
+                            window.location.href = element.getAttribute('href');
+                        } else if (element.onclick) {
+                            element.onclick();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
