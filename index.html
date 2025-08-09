@@ -6,114 +6,7 @@
     <title>Sports App - Aplicación Deportes Accesible</title>
     <meta name="description" content="Aplicación deportiva accesible con información sobre diversos deportes y atletas paralímpicos">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-        
-        :root {
-            --primary-color: #2563eb;
-            --primary-dark: #1d4ed8;
-            --text-color: #1f2937;
-            --bg-color: #f9fafb;
-            --dark-text: #e5e7eb;
-            --dark-bg: #111827;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-        
-        .dark-mode {
-            background-color: var(--dark-bg);
-            color: var(--dark-text);
-        }
-        
-        .dark-mode .bg-white {
-            background-color: #1f2937;
-        }
-        
-        .dark-mode .text-gray-900 {
-            color: var(--dark-text);
-        }
-        
-        .dark-mode .bg-gray-100 {
-            background-color: #374151;
-        }
-        
-        .dark-mode .border-gray-200 {
-            border-color: #4b5563;
-        }
-        
-        .dark-mode .shadow-lg {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
-        }
-        
-        .dark-mode .hover\\:bg-gray-200:hover {
-            background-color: #4b5563;
-        }
-        
-        /* Estilos para accesibilidad */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--primary-color);
-            color: white;
-            padding: 8px;
-            z-index: 100;
-            transition: top 0.3s;
-        }
-        
-        .skip-link:focus {
-            top: 0;
-        }
-        
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
-        }
-        
-        *:focus-visible {
-            outline: 3px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-        
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        
-        /* Mejoras para deportes adaptados */
-        .adaptive-sport {
-            position: relative;
-        }
-        
-        .adaptive-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #dc2626;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="transition-colors duration-300">
 
@@ -121,7 +14,7 @@
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
     
     <!-- Botón de Modo Oscuro/Claro -->
-    <button id="theme-toggle" aria-label="Alternar entre modo claro y oscuro" class="fixed bottom-4 right-4 z-50 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-transform transform hover:scale-110">
+    <button id="theme-toggle" aria-label="Alternar entre modo claro y oscuro" class="fixed bottom-4 right-4 z-50 p-3 bg-blue-900 text-white rounded-full shadow-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-transform transform hover:scale-110">
         <svg id="moon-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
@@ -168,8 +61,8 @@
     <main id="main-content" class="container mx-auto p-4 space-y-12">
         <!-- Sección de Inicio -->
         <section id="inicio" class="py-12 md:py-20 animate-fade-in" aria-labelledby="inicio-heading">
-            <h1 id="inicio-heading" class="text-4xl md:text-6xl font-extrabold text-center text-blue-600 dark:text-blue-400 mb-6">Tu Mundo Deportivo en un Solo Lugar</h1>
-            <p class="text-lg text-center text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">Explora, descubre y comparte noticias, eventos y perfiles de atletas de tus deportes favoritos. Mantente al día con lo último en el mundo del deporte, con un diseño accesible para todos.</p>
+            <h1 id="inicio-heading" class="text-4xl md:text-6xl font-extrabold text-center text-blue-600 dark:text-blue-600 mb-6">Tu Mundo Deportivo en un Solo Lugar</h1>
+            <p class="text-lg text-center text-gray-900 dark:text-gray-900 max-w-3xl mx-auto">Explora, descubre y comparte noticias, eventos y perfiles de atletas de tus deportes favoritos. Mantente al día con lo último en el mundo del deporte, con un diseño accesible para todos.</p>
             <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
                 <a href="#deportes" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center">Explorar Deportes</a>
                 <a href="#paralimpicos" class="inline-block bg-purple-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-center">Deportes Paralímpicos</a>
@@ -213,7 +106,7 @@
 
         <!-- Sección de Listado de Deportes -->
         <section id="deportes" class="py-12 md:py-20 hidden animate-fade-in" aria-labelledby="deportes-heading">
-            <h1 id="deportes-heading" class="text-4xl md:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-10">Explora Todos los Deportes</h1>
+            <h1 id="deportes-heading" class="text-4xl md:text-5xl font-bold text-center text-blue-600 dark:text-blue-600 mb-10">Explora Todos los Deportes</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Tarjetas de deportes -->
                 <a href="#deporte-detalle-1" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2" aria-label="Ir a la página de detalles de Fútbol">
@@ -253,19 +146,19 @@
 
         <!-- Sección de Deportes Paralímpicos -->
         <section id="paralimpicos" class="py-12 md:py-20 hidden animate-fade-in" aria-labelledby="paralimpicos-heading">
-            <h1 id="paralimpicos-heading" class="text-4xl md:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-10">Deportes Paralímpicos</h1>
-            <p class="text-lg text-center text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-12">Los deportes paralímpicos son una demostración de capacidad, superación y espíritu deportivo. Conoce más sobre estas disciplinas adaptadas y sus atletas.</p>
+            <h1 id="paralimpicos-heading" class="text-4xl md:text-5xl font-bold text-center text-blue-700 dark:text-blue-700 mb-10">Deportes Paralímpicos</h1>
+            <p class="text-lg text-center text-gray-900 dark:text-gray-900 max-w-3xl mx-auto mb-12">Los deportes paralímpicos son una demostración de capacidad, superación y espíritu deportivo. Conoce más sobre estas disciplinas adaptadas y sus atletas.</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Fútbol 5 para ciegos -->
-                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
+                <article class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
                     <div class="adaptive-badge">Adaptado</div>
                     <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Jugador de fútbol 5 para ciegos con antifaz y balón con cascabeles" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
                     <h2 class="text-2xl font-bold mb-2 dark:text-white">Fútbol 5 para ciegos</h2>
                     <p class="text-gray-600 dark:text-gray-300 mb-4">Variante del fútbol para deportistas con discapacidad visual. El balón contiene cascabeles para ser localizado por sonido.</p>
                     <div class="flex justify-between items-center">
                         <a href="#paralimpico-detalle-1" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Más información sobre fútbol 5 para ciegos">
-                            Más info
+                            Más información
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
@@ -275,14 +168,14 @@
                 </article>
                 
                 <!-- Boccia -->
-                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
+                <article class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
                     <div class="adaptive-badge">Adaptado</div>
                     <img src="https://images.unsplash.com/photo-1593113598332-cd59a93c6138?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Jugador de boccia en silla de ruedas lanzando una bola" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
                     <h2 class="text-2xl font-bold mb-2 dark:text-white">Boccia</h2>
                     <p class="text-gray-600 dark:text-gray-300 mb-4">Deporte similar a la petanca diseñado específicamente para atletas con discapacidades severas.</p>
                     <div class="flex justify-between items-center">
                         <a href="#paralimpico-detalle-2" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Más información sobre boccia">
-                            Más info
+                            Más información
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
@@ -292,14 +185,14 @@
                 </article>
                 
                 <!-- Goalball -->
-                <article class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
+                <article class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 adaptive-sport">
                     <div class="adaptive-badge">Adaptado</div>
                     <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Jugadores de goalball defendiendo su portería con el cuerpo" class="w-full h-48 object-cover rounded-md mb-4" loading="lazy">
                     <h2 class="text-2xl font-bold mb-2 dark:text-white">Goalball</h2>
                     <p class="text-gray-600 dark:text-gray-300 mb-4">Deporte creado específicamente para personas con discapacidad visual, donde se usa un balón con cascabeles.</p>
                     <div class="flex justify-between items-center">
                         <a href="#paralimpico-detalle-3" class="text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center" aria-label="Más información sobre goalball">
-                            Más info
+                            Más información
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
@@ -309,10 +202,10 @@
                 </article>
             </div>
             
-            <div class="mt-12 bg-blue-50 dark:bg-gray-700 rounded-xl p-8">
-                <h2 class="text-2xl font-bold text-blue-800 dark:text-blue-300 mb-4">¿Qué son los deportes paralímpicos?</h2>
-                <p class="text-gray-700 dark:text-gray-300 mb-4">Los deportes paralímpicos son deportes adaptados para personas con diferentes tipos de discapacidad física, intelectual o sensorial. Estos deportes siguen reglas específicas adaptadas a las capacidades de los atletas.</p>
-                <p class="text-gray-700 dark:text-gray-300">Los Juegos Paralímpicos son el evento deportivo más importante a nivel mundial para atletas con discapacidad, y se celebran justo después de los Juegos Olímpicos, en las mismas sedes e instalaciones.</p>
+            <div class="mt-12 bg-blue-50 dark:bg-gray-400 rounded-xl p-8">
+                <h2 class="text-2xl font-bold text-blue-800 dark:text-blue-700 mb-4">¿Qué son los deportes paralímpicos?</h2>
+                <p class="text-gray-800 dark:text-gray-900 mb-4">Los deportes paralímpicos son deportes adaptados para personas con diferentes tipos de discapacidad física, intelectual o sensorial. Estos deportes siguen reglas específicas adaptadas a las capacidades de los atletas.</p>
+                <p class="text-gray-800 dark:text-gray-900">Los Juegos Paralímpicos son el evento deportivo más importante a nivel mundial para atletas con discapacidad, y se celebran justo después de los Juegos Olímpicos, en las mismas sedes e instalaciones.</p>
             </div>
         </section>
 
@@ -349,7 +242,7 @@
                 </svg>
                 Volver a Deportes Paralímpicos
             </a>
-            <h1 id="paralimpico-heading" class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-6">Fútbol 5 para ciegos</h1>
+            <h1 id="paralimpico-heading" class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-800 mb-6">Fútbol 5 para ciegos</h1>
             <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=600&q=80" alt="Jugadores de fútbol 5 para ciegos en acción durante un partido" class="w-full h-80 object-cover rounded-xl shadow-lg mb-8" loading="lazy">
 
             <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
@@ -435,10 +328,10 @@
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Contacto</h4>
                     <address class="not-italic text-gray-400">
-                        <p class="mb-2">Calle Deportiva 123</p>
-                        <p class="mb-2">Madrid, España</p>
+                        <p class="mb-2">Manta</p>
+                        <p class="mb-2">Ecuador</p>
                         <p class="mb-2">info@sportsapp.com</p>
-                        <p>+34 123 456 789</p>
+                        <p>+593 0993937198</p>
                     </address>
                 </div>
                 <div>
@@ -514,264 +407,6 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Elementos del DOM
-            const sections = document.querySelectorAll('main section');
-            const navLinks = document.querySelectorAll('header nav a');
-            const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const moonIcon = document.getElementById('moon-icon');
-            const sunIcon = document.getElementById('sun-icon');
-            const menuToggleBtn = document.getElementById('menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
-            const closeIcon = document.getElementById('close-icon');
-            const loginForm = document.getElementById('login-form');
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const emailError = document.getElementById('email-error');
-            const passwordError = document.getElementById('password-error');
-            const accessibilityBtn = document.getElementById('accessibility-btn');
-            const accessibilityModal = document.getElementById('accessibility-modal');
-            const closeModalBtn = document.getElementById('close-modal');
-            const applyAccessibilityBtn = document.getElementById('apply-accessibility');
-            const highContrastCheckbox = document.getElementById('high-contrast');
-            const biggerTextCheckbox = document.getElementById('bigger-text');
-            const dyslexiaFontCheckbox = document.getElementById('dyslexia-font');
-            const animationControlSelect = document.getElementById('animation-control');
-
-            // Mostrar sección basada en el hash de la URL
-            const showSection = (hash) => {
-                const targetId = hash.substring(1) || 'inicio';
-                
-                sections.forEach(section => {
-                    const shouldShow = section.id === targetId || 
-                                     (targetId.startsWith('deporte-detalle') && section.id.startsWith('deporte-detalle')) ||
-                                     (targetId.startsWith('paralimpico-detalle') && section.id.startsWith('paralimpico-detalle'));
-                    
-                    if (shouldShow) {
-                        section.classList.remove('hidden');
-                        section.classList.add('animate-fade-in');
-                        section.setAttribute('tabindex', '-1');
-                        section.focus();
-                    } else {
-                        section.classList.add('hidden');
-                        section.classList.remove('animate-fade-in');
-                    }
-                });
-
-                // Actualizar aria-current para accesibilidad
-                const updateAriaCurrent = (links) => {
-                    links.forEach(link => {
-                        if (link.getAttribute('href') === hash) {
-                            link.setAttribute('aria-current', 'page');
-                        } else {
-                            link.removeAttribute('aria-current');
-                        }
-                    });
-                };
-                
-                updateAriaCurrent(navLinks);
-                updateAriaCurrent(mobileMenuLinks);
-
-                // Cerrar menú móvil si está abierto
-                mobileMenu.classList.add('hidden');
-                menuToggleBtn.setAttribute('aria-expanded', 'false');
-                menuIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-            };
-
-            // Manejar la navegación por hash
-            window.addEventListener('hashchange', () => showSection(window.location.hash));
-            
-            // Mostrar sección inicial
-            showSection(window.location.hash);
-
-            // Manejar la navegación por enlaces
-            const handleLinkClick = (e) => {
-                const link = e.currentTarget;
-                const hash = link.getAttribute('href');
-                
-                if (hash.startsWith('#')) {
-                    e.preventDefault();
-                    window.location.hash = hash;
-                }
-            };
-            
-            navLinks.forEach(link => link.addEventListener('click', handleLinkClick));
-            mobileMenuLinks.forEach(link => link.addEventListener('click', handleLinkClick));
-
-            // Modo oscuro/claro
-            themeToggleBtn.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-                const isDarkMode = document.body.classList.contains('dark-mode');
-                themeToggleBtn.setAttribute('aria-label', `Alternar a modo ${isDarkMode ? 'claro' : 'oscuro'}`);
-                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-                moonIcon.classList.toggle('hidden', isDarkMode);
-                sunIcon.classList.toggle('hidden', !isDarkMode);
-            });
-
-            // Aplicar tema guardado
-            if (localStorage.getItem('theme') === 'dark' || 
-                (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.body.classList.add('dark-mode');
-                moonIcon.classList.add('hidden');
-                sunIcon.classList.remove('hidden');
-            }
-
-            // Menú móvil
-            menuToggleBtn.addEventListener('click', () => {
-                const isExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
-                menuToggleBtn.setAttribute('aria-expanded', !isExpanded);
-                mobileMenu.classList.toggle('hidden');
-                menuIcon.classList.toggle('hidden');
-                closeIcon.classList.toggle('hidden');
-            });
-
-            // Validación de formulario
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                let isValid = true;
-
-                // Validar email
-                if (!emailInput.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
-                    emailError.classList.remove('hidden');
-                    emailInput.setAttribute('aria-invalid', 'true');
-                    isValid = false;
-                } else {
-                    emailError.classList.add('hidden');
-                    emailInput.setAttribute('aria-invalid', 'false');
-                }
-
-                // Validar contraseña
-                if (passwordInput.value.length < 6) {
-                    passwordError.classList.remove('hidden');
-                    passwordInput.setAttribute('aria-invalid', 'true');
-                    isValid = false;
-                } else {
-                    passwordError.classList.add('hidden');
-                    passwordInput.setAttribute('aria-invalid', 'false');
-                }
-
-                if (isValid) {
-                    // Simular envío exitoso
-                    const liveRegion = document.createElement('div');
-                    liveRegion.setAttribute('role', 'status');
-                    liveRegion.setAttribute('aria-live', 'polite');
-                    liveRegion.className = 'sr-only';
-                    liveRegion.textContent = 'Formulario enviado con éxito';
-                    document.body.appendChild(liveRegion);
-                    
-                    setTimeout(() => {
-                        liveRegion.remove();
-                        loginForm.reset();
-                        alert("Formulario enviado con éxito!");
-                    }, 100);
-                } else {
-                    // Mover foco al primer error
-                    const firstError = emailError.classList.contains('hidden') ? passwordInput : emailInput;
-                    firstError.focus();
-                }
-            });
-
-            // Modal de accesibilidad
-            accessibilityBtn.addEventListener('click', () => {
-                accessibilityModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-                closeModalBtn.focus();
-            });
-
-            closeModalBtn.addEventListener('click', () => {
-                accessibilityModal.classList.add('hidden');
-                document.body.style.overflow = '';
-            });
-
-            applyAccessibilityBtn.addEventListener('click', () => {
-                // Aplicar alto contraste
-                if (highContrastCheckbox.checked) {
-                    document.body.classList.add('high-contrast');
-                } else {
-                    document.body.classList.remove('high-contrast');
-                }
-
-                // Aplicar texto más grande
-                if (biggerTextCheckbox.checked) {
-                    document.body.classList.add('bigger-text');
-                } else {
-                    document.body.classList.remove('bigger-text');
-                }
-
-                // Aplicar fuente para dislexia
-                if (dyslexiaFontCheckbox.checked) {
-                    document.body.classList.add('dyslexia-font');
-                } else {
-                    document.body.classList.remove('dyslexia-font');
-                }
-
-                // Reducir animaciones
-                if (animationControlSelect.value === 'reduce') {
-                    document.body.classList.add('reduce-motion');
-                } else {
-                    document.body.classList.remove('reduce-motion');
-                }
-
-                // Guardar preferencias
-                const accessibilityPrefs = {
-                    highContrast: highContrastCheckbox.checked,
-                    biggerText: biggerTextCheckbox.checked,
-                    dyslexiaFont: dyslexiaFontCheckbox.checked,
-                    reduceMotion: animationControlSelect.value === 'reduce'
-                };
-                
-                localStorage.setItem('accessibilityPrefs', JSON.stringify(accessibilityPrefs));
-
-                // Cerrar modal
-                accessibilityModal.classList.add('hidden');
-                document.body.style.overflow = '';
-                
-                // Notificar cambio
-                const liveRegion = document.createElement('div');
-                liveRegion.setAttribute('role', 'status');
-                liveRegion.setAttribute('aria-live', 'polite');
-                liveRegion.className = 'sr-only';
-                liveRegion.textContent = 'Preferencias de accesibilidad aplicadas';
-                document.body.appendChild(liveRegion);
-                setTimeout(() => liveRegion.remove(), 1000);
-            });
-
-            // Cargar preferencias guardadas
-            const savedPrefs = localStorage.getItem('accessibilityPrefs');
-            if (savedPrefs) {
-                const prefs = JSON.parse(savedPrefs);
-                
-                highContrastCheckbox.checked = prefs.highContrast;
-                biggerTextCheckbox.checked = prefs.biggerText;
-                dyslexiaFontCheckbox.checked = prefs.dyslexiaFont;
-                animationControlSelect.value = prefs.reduceMotion ? 'reduce' : 'normal';
-                
-                // Aplicar estilos
-                if (prefs.highContrast) document.body.classList.add('high-contrast');
-                if (prefs.biggerText) document.body.classList.add('bigger-text');
-                if (prefs.dyslexiaFont) document.body.classList.add('dyslexia-font');
-                if (prefs.reduceMotion) document.body.classList.add('reduce-motion');
-            }
-
-            // Manejar teclado para tarjetas
-            document.querySelectorAll('[role="button"], a[href^="#"]').forEach(element => {
-                element.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        if (element.getAttribute('href')) {
-                            window.location.href = element.getAttribute('href');
-                        } else if (element.onclick) {
-                            element.onclick();
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
